@@ -6,7 +6,6 @@ client/.data
 client/.nuxt
 client/.nitro
 client/.cache
-client/dist
 
 # Node dependencies
 client/node_modules
