@@ -9,13 +9,13 @@ const store = useStore()
       <section>
         <h2 class="mb-3">Welcome to the Reports System</h2>
         <p class="mb-10">View and manage your work report with ease.</p>
-        <NuxtLink v-if="!store.isLoggedIn" to="/login">
+        <NuxtLink v-if="!store.isLoggedIn" to="/Login">
           <p><b>Sign-in</b> to get started</p>
         </NuxtLink>
 
         <article v-else>
           <p class="mb-4">Hello, {{store.fullName}}</p>
-          <v-btn @click="navigateTo('/reports')" color="primary">Go To Reports</v-btn>
+          <v-btn @click="navigateTo('/Reports')" color="primary">Go To Reports</v-btn>
         </article>
       </section>
 

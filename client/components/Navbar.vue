@@ -30,7 +30,7 @@ const logout = async () => {
       Logout
     </v-btn>
 
-    <v-btn v-else @click="navigateTo('login')" append-icon="mdi-account-circle">
+    <v-btn v-else @click="navigateTo('/Login')" append-icon="mdi-account-circle">
       <template v-slot:prepend>
         <v-icon></v-icon>
       </template>
