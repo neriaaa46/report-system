@@ -1,0 +1,46 @@
+.idea
+
+# Nuxt dev/build outputs
+client/.output
+client/.data
+client/.nuxt
+client/.nitro
+client/.cache
+client/dist
+
+# Node dependencies
+client/node_modules
+
+# Logs
+client/logs
+client/*.log
+
+# Misc
+client/.DS_Store
+client/.fleet
+client/.idea
+
+# Local env files
+client/.env
+client/.env.*
+!client/.env.example
+
+
+# Node dev/build outputs
+server/dist
+server/build
+server/.cache
+
+# Node dependencies
+server/node_modules
+
+# Logs
+server/logs
+server/*.log
+
+server/.idea
+
+# Local env files
+server/.env
+server/.env.*
+!server/.env.example

@@ -1,0 +1,16 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    scroll-behavior: smooth;
+    overflow-y: auto !important;
+    height: 100vh;
+}
+
+a {
+    all: unset;
+    color: rgba(var(--v-theme-primary));
+    cursor: pointer;
+}
