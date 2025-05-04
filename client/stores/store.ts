@@ -3,7 +3,7 @@ import type { IUser } from '~/types/types'
 
 export const useStore = defineStore('userStore', {
     state: () => ({
-        apiBaseURL: process.env.API_BASE_URL || 'http://localhost:3001',
+        apiBaseURL: process.env.NODE_ENV  === 'development' ? 'http://localhost:3001' : 'https://report-system-usv2.onrender.com',
         isLoggedIn: false as boolean,
         userId: "" as string,
         email: "" as string,
