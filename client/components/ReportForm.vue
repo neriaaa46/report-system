@@ -14,6 +14,7 @@ const dialogVisible = ref<boolean>(false)
 const dialogType = ref<'in' | 'out' | null>(null)
 const snackbar = ref<boolean>(false)
 const message = ref<String>("")
+const loading = ref<boolean>(false)
 
 const isClockOutDisabled = computed(() => !clockInTime.value)
 
@@ -50,13 +51,13 @@ async function handleSave(newTime: string) {
 }
 
 async function fetchTodayReport() {
-  const employeeId = store.userId
   const date = getTodayDate()
 
   try {
+      loading.value = true
       const res: IReport = await $fetch(`${store.apiBaseURL}/api/reports/getReport`, {
         credentials: 'include',
-        query: { employeeId, date}
+        query: {date}
       })
 
       if (res) {
@@ -70,6 +71,9 @@ async function fetchTodayReport() {
 
   } catch (error:any) {
       console.error('Error fetching report:', error)
+
+  } finally {
+    loading.value = false
   }
 }
 
@@ -77,7 +81,7 @@ async function createReport(time: string) {
   try {
     const res: ICreateOrUpdateReport = await $fetch(`${store.apiBaseURL}/api/reports/addReport`, {
       method: 'POST',
-      body: {employeeId: store.userId, clockIn: time},
+      body: {clockIn: time},
       credentials: 'include',
     })
     report.value = res.report
@@ -130,20 +134,27 @@ onMounted(async () => {
     </ul>
   </section>
 
-  <section v-if="report?.status === 'approved' || report?.status === 'rejected'">
-    <h3 class="mb-2">Report</h3>
-    <template class="report-details">
-      <span><strong>Date:</strong> {{formatDate(report.date)}}</span>
-      <span><strong>Clock-in:</strong> {{report.clockIn}}</span>
-      <span><strong>Clock-Out:</strong> {{report.clockOut}}</span>
-      <span><strong>Status:</strong> {{report.status}}</span>
+  <section class="report-section">
+    <p v-if="loading">Loading...</p>
+
+    <template v-else>
+      <article v-if="report?.status === 'approved' || report?.status === 'rejected'">
+        <h3 class="mb-2">Report</h3>
+        <template class="report-details">
+          <span><strong>Date:</strong> {{formatDate(report.date)}}</span>
+          <span><strong>Clock-in:</strong> {{report.clockIn}}</span>
+          <span><strong>Clock-Out:</strong> {{report.clockOut}}</span>
+          <span><strong>Status:</strong> {{report.status}}</span>
+        </template>
+      </article>
+
+      <article v-else>
+        <v-btn class="mr-4" color="primary" @click="openDialog('in')">Clock In</v-btn>
+        <v-btn color="primary" :disabled="isClockOutDisabled" @click="openDialog('out')">Clock Out</v-btn>
+      </article>
     </template>
   </section>
 
-  <section v-else>
-    <v-btn class="mr-4" color="primary" @click="openDialog('in')">Clock In</v-btn>
-    <v-btn color="primary" :disabled="isClockOutDisabled" @click="openDialog('out')">Clock Out</v-btn>
-  </section>
 
   <ClockTimeDialog
       v-model="dialogVisible"
@@ -178,5 +189,8 @@ onMounted(async () => {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
+}
+.report-section {
+  height: 80px;
 }
 </style>
